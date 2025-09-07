@@ -30,3 +30,4 @@ export const generateToken = async(id,res)=>{
     });
     return { accessToken, refreshToken}
 }
+
