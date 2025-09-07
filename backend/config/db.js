@@ -5,7 +5,7 @@ const connectDb = async()=>{
         mongoose.connect(process.env.MONGODB_URI,{
             dbName:"MernAuthentication",
         })
-        console.log("MongoDb connected")
+        console.log("MongoDb connected") 
     } catch (error) {
         console.log("Failed to connect")
     }

@@ -129,7 +129,7 @@ export const getVerifyEmailHtml = ({ email, token }) => {
 
           </table>
         </td>
-      </tr>
+      </tr> 
     </table>
   </body>
   </html>

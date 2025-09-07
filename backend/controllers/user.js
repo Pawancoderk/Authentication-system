@@ -228,7 +228,7 @@ export const verifyOtp = TryCatch(async(req,res)=>{
   const tokenData = await generateToken(user._id, res);
 
   res.status(200).json({
-    message: `Welcome ${user.name}`,
+    message: `Welcome ${user.name}`, 
     user
   })
 })

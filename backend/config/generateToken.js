@@ -15,7 +15,7 @@ export const generateToken = async(id,res)=>{
 
     await redisClient.setEx(refreshTokenKey, 7 * 24 * 60 * 60, refreshToken);
 
-    res.cookie("accessToken",accessToken,{
+    res.cookie("accessToken",accessToken,{ 
         httpOnly: true,
         // secure: true,
         sameSite: "strict",

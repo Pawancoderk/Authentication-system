@@ -7,7 +7,7 @@ const TryCatch  = (handler)=>{
                 message:error.message
             })
         }
-    }
+    } 
 }
 
 export default  TryCatch;

@@ -8,7 +8,7 @@ const sendMail = async ({ email, subject, html }) => {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
     },
-  });
+  }); 
 
   await transport.sendMail({
     from: process.env.SMTP_USER,
