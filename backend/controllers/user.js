@@ -8,7 +8,7 @@ import crypto from "crypto";
 import sendMail from "../config/sendMail.js";
 import { getOtpHtml, getVerifyEmailHtml } from "../config/html.js";
 import { email, json } from "zod";
-import { generateToken } from "../config/generateToken.js";
+import { generateAccessToken, generateToken, verifyRefreshToken } from "../config/generateToken.js";
 
 export const UserRegister = TryCatch(async (req, res) => {
   const sanitizedBody = sanitize(req.body);
@@ -238,3 +238,28 @@ export const myProfile = TryCatch(async(req,res)=>{
 
   res.json(user);
 }) 
+
+export const refreshToken = TryCatch(async(req,res)=>{
+    const refreshToken = req.cookies.refreshToken;
+
+    if(!refreshToken){
+        return res.status(401).json({
+            message: "Invalid refresh token",
+        });
+    }
+
+    const decode = await verifyRefreshToken(refreshToken);
+    
+
+    if(!decode){
+        return res.status(401).json({
+            message: "Invalid refresh token"
+        })
+    }
+
+    generateAccessToken(decode.id,res);
+
+    res.status(201).json({
+        message: "Token refreshed"
+    })
+})
