@@ -1,14 +1,31 @@
 import React from 'react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import axios from "axios"
+import { server } from '../main'
 
 const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [btnLoading, setBtnLoading] = useState(false)
 
-  const submitHandler = (e)=>{
+  const navigate = useNavigate();
+
+  const submitHandler = async (e)=>{
     e.preventDefault();
-    console.log(email,password)
+    setBtnLoading(true)
+    try {
+      const {data} = await axios.post(`${server}/api/v1/login`,{email,password})
+      toast.success(data.message);
+      localStorage.setItem("email",email)
+      navigate("/verifyotp")
+    } catch (error) {
+      const message = error.response?.data?.message || error.message
+      toast.error(message);
+    }finally{
+      setBtnLoading(false)
+    }
   }
   return <section className="text-gray-600 body-font">
     <div className="container px-5 py-24 mx-auto flex flex-wrap items-center">
@@ -24,10 +41,10 @@ const Login = () => {
           <input type="email" id="email" name="email" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" value={email} onChange={(e) => setEmail(e.target.value)} required />
         </div>
         <div className="relative mb-4">
-          <label htmlFor="email" className="leading-7 text-sm text-gray-600">Password</label>
+          <label htmlFor="password" className="leading-7 text-sm text-gray-600">Password</label>
           <input type="password" id="password" name="password" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
-        <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
+        <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg" disabled={btnLoading}>{btnLoading ? "Submitting" : "Login"}</button>
         <Link to={"/register"} className="text-xs text-gray-500 mt-3">Don't have an account? Sign up</Link>
       </form>
     </div>
