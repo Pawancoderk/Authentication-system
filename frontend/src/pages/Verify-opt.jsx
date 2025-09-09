@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import {Link} from "react-router-dom"
 import { server } from '../main'
+import { toast } from 'react-toastify'
 
 const VerifyOpt = () => {
   const [otp, setOtp] = useState("")
@@ -14,9 +15,14 @@ const VerifyOpt = () => {
     const email = localStorage.getItem("email")
     try {
       const {data} = await axios.post(`${server}/api/v1/verify`,{email, otp},{withCredentials:true})
+      toast.success(data.message);
+      localStorage.removeItem("email")
 
     } catch (error) {
-      
+      const message = error.response?.data?.message || error.message;
+        toast.error(message);
+    } finally{
+      setBtnLoading(false)
     }
 
   }
@@ -33,10 +39,10 @@ const VerifyOpt = () => {
       
         <div className="relative mb-4">
           <label htmlFor="otp" className="leading-7 text-sm text-gray-600">Otp</label>
-          <input type="password" id="otp" name="otp" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" value={otp} onChange={(e) => setOtp(e.target.value)} required />
+          <input type="otp" id="otp" name="otp" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" value={otp} onChange={(e) => setOtp(e.target.value)} required />
         </div>
         <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg" disabled={btnLoading}>{btnLoading ? "Submitting" : "Login"}</button>
-        <Link to={"/login"} className="text-xs text-gray-500 mt-3">Go to lohin page</Link>
+        <Link to={"/login"} className="text-xs text-gray-500 mt-3">Go to login page</Link>
       </form>
     </div>
   </section>
