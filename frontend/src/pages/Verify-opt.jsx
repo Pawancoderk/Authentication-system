@@ -9,7 +9,7 @@ const VerifyOpt = () => {
   const [otp, setOtp] = useState("")
   const [btnLoading, setBtnLoading] = useState(false)
   const navigate = useNavigate();
-  const {} = AppData()
+  const {setIsAuth, setUser} = AppData()
   
   const submitHandler = async(e)=>{
     setBtnLoading(true)
@@ -19,6 +19,8 @@ const VerifyOpt = () => {
     try {
       const {data} = await axios.post(`${server}/api/v1/verify`,{email, otp},{withCredentials:true})
       toast.success(data.message);
+      setIsAuth(true)
+      setUser(data.user)
       localStorage.removeItem("email")
 
     } catch (error) {
