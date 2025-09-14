@@ -71,3 +71,15 @@ export const verifyCSRFToken = async (req, res, next) => {
         });
   }
 };
+
+export const revokeCSRFTOKEN = async(userId)=>{
+  const csrfKey = `csrf:${userId}`;
+
+  await redisClient.del(csrfKey);
+}
+
+export const refreshCSRFToken = async(userId, res)=>{
+  await revokeCSRFTOKEN(userId)
+
+  return await generateCSRFToken(userId, res);
+}
