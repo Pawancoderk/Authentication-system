@@ -281,7 +281,7 @@ export const logoutUser = TryCatch(async(req,res)=>{
   })
 })
 
-export const refresh_token = TryCatch(async(req,res)=>{
+export const refreshCSRF = TryCatch(async(req,res)=>{
   const userId = req.user.id
 
   const newCSRFToken = await generateCSRFToken(userId, res);

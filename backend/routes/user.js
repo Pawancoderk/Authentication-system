@@ -1,5 +1,5 @@
 import express from "express";
-import { loginUser, logoutUser, myProfile, refresh_token, refreshToken, UserRegister, verifyOtp, verifyUser } from "../controllers/user.js";
+import { loginUser, logoutUser, myProfile, refreshCSRF, refreshToken, UserRegister, verifyOtp, verifyUser } from "../controllers/user.js";
 import { isAuth } from "../middlewares/isAuth.js";
 import { verifyCSRFToken } from "../config/csrfMiddleware.js";
 
@@ -13,6 +13,6 @@ router.post("/verify",verifyOtp)
 router.get("/me",isAuth,myProfile)
 router.post("/refresh",refreshToken)
 router.post("/logout",isAuth, verifyCSRFToken, logoutUser)
-router.post("/refresh-csrf", isAuth,refresh_token )
+router.post("/refresh-csrf", isAuth, refreshCSRF)
 
 export default router;
