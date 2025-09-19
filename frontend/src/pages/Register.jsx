@@ -5,7 +5,8 @@ import { toast } from 'react-toastify'
 import axios from "axios"
 import { server } from '../main'
 
-const Login = () => {
+const Register = () => {
+  const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [btnLoading, setBtnLoading] = useState(false)
@@ -16,10 +17,12 @@ const Login = () => {
     e.preventDefault();
     setBtnLoading(true)
     try {
-      const {data} = await axios.post(`${server}/api/v1/login`,{email,password})
+      const {data} = await axios.post(`${server}/api/v1/register`,{name, email,password})
       toast.success(data.message);
-      localStorage.setItem("email",email)
-      navigate("/verifyotp")
+      setName("")
+      setEmail("")
+      setPassword("")
+       
     } catch (error) {
       const message = error.response?.data?.message || error.message
       toast.error(message);
@@ -37,7 +40,7 @@ const Login = () => {
         <h2 className="text-gray-900 text-lg font-medium title-font mb-5">Sign Up</h2>
         <div className="relative mb-4">
           <label htmlFor="name" className="leading-7 text-sm text-gray-600">Name</label>
-          <input type="text" id="email" name="email" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input type="text" id="name" name="name" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" value={name} onChange={(e) => setName(e.target.value)} required />
         </div>
         <div className="relative mb-4">
           <label htmlFor="email" className="leading-7 text-sm text-gray-600">Email</label>
@@ -48,11 +51,11 @@ const Login = () => {
           <input type="password" id="password" name="password" className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
         <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg" disabled={btnLoading}>{btnLoading ? "Submitting" : "Login"}</button>
-        <Link to={"/register"} className="text-xs text-gray-500 mt-3">Don't have an account? Sign up</Link>
+        <Link to={"/login"} className="text-xs text-gray-500 mt-3">Don't have an account? Sign up</Link>
       </form>
     </div>
   </section>
 
 }
 
-export default Login
+export default Register
