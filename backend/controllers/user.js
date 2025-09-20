@@ -292,4 +292,10 @@ export const refreshCSRF = TryCatch(async(req,res)=>{
 
 })
 
+export const adminControl = TryCatch(async(req,res)=>{
+  res.json({
+    message: "Hello admin"
+  })
+})
+
  
