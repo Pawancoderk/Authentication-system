@@ -7,7 +7,7 @@ import { AppProvider } from './context/AppContext.jsx';
 export const server = "http://localhost:3000";
 
 createRoot(document.getElementById('root')).render(
-  // <StrictMode>
+  <StrictMode>
     <AppProvider>
       <App />
     </AppProvider>
