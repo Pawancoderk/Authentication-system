@@ -22,6 +22,7 @@ const VerifyOpt = () => {
       setIsAuth(true)
       setUser(data.user)
       localStorage.removeItem("email")
+      navigate("/");
 
     } catch (error) {
       const message = error.response?.data?.message || error.message;

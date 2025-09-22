@@ -14,11 +14,13 @@ export const AppProvider = ({children})=>{
         setLoading(true)
         try {
             const {data} = await api.get(`/api/v1/me`);
-            setUser(data);
+            setUser(data.user);
             setIsAuth(true)
 
         } catch (error) {
             console.log(error)
+            setUser(null)
+            setIsAuth(false)
         }finally{
             setLoading(false)
         }
@@ -32,7 +34,7 @@ export const AppProvider = ({children})=>{
             setUser(null)
             navigate("/login")
         } catch (error) {
-            toast.error("Something went wrong");
+            toast.error(error.message);
         }
     }
 
